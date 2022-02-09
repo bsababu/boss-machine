@@ -167,9 +167,10 @@ describe('/api/minions routes', function() {
 
   });
 
-  describe('POST /api/minions', function() {
+  describe('POST /api/minions', (done)=> {
 
-    it('should add a new minion if all supplied information is correct', function() {
+    it('should add a new minion if all supplied information is correct', async () => {
+      
       let initialMinionsArray;
       let newMinionObject = {
         name: 'Test',
@@ -177,22 +178,18 @@ describe('/api/minions routes', function() {
         salary: 0,
         weaknesses: '',
       }
-      return request(app)
-        .get('/api/minions')
-        .then((response) => {
-          initialMinionsArray = response.body;
-        })
-        .then(() => {
-          return request(app)
-            .post('/api/minions')
-            .send(newMinionObject)
-            .expect(201);
-        })
-        .then((response) => response.body)
-        .then((createdMinion) => {
-          newMinionObject.id = createdMinion.id;
-          expect(newMinionObject).to.be.deep.equal(createdMinion);
-        });
+      const response =  await request(app)
+        .get('/api/minions');
+      initialMinionsArray = response.body;
+      const response_1 = await request(app)
+        .post('/api/minions')
+        .send(newMinionObject)
+        .expect(201);
+        
+      const createdMinion = response_1.body;
+      newMinionObject.id = createdMinion.id;
+      expect(newMinionObject).to.be.deep.equal(createdMinion);
+      done();
     });
 
   });

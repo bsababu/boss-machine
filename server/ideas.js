@@ -21,7 +21,7 @@ ideasRouter.get('/', (req, res, next) => {
     res.send(getAllFromDatabase('ideas'));
 });
 ideasRouter.post('/', checkIdea, (req, res, next) => {
-    const idea = addToDatabase('Ideas', req.body);
+    const idea = addToDatabase('ideas', req.body);
     res.status(201).send(idea);
 })
 ideasRouter.get('/:id', (req, res, next) => {
@@ -32,7 +32,7 @@ ideasRouter.put('/:id', (req, res, next) => {
     res.send(updateIdea);
 });
 ideasRouter.delete('/:id', (req, res, next) => {
-    const deleteIdea = deleteFromDatabasebyId('idea', req.params.id);
+    const deleteIdea = deleteFromDatabasebyId('ideas', req.params.id);
     if (deleteIdea) {
         res.status(204);
     } else {
